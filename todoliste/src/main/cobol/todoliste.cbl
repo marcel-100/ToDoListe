@@ -15,6 +15,13 @@
              05 ITEM-ID PIC 9(5).
              05 ITEM-CONTENT PIC X(35).
        WORKING-STORAGE SECTION.
+       
+
+
+       
+       DISPLAY 'hallo'
+
+
        01 TEMP-FIELDS.
         05  ITEM-TO-DELETE          PIC 999.
         05  NUMBER-OF-TODOS         PIC 999.
