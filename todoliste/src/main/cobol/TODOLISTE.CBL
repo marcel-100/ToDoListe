@@ -27,9 +27,12 @@
            05 ITEM-ID PIC 9(5).
            05 ITEM-CONTENT PIC X(35).
        LINKAGE SECTION.
-        COPY todoactions.
-        COPY todoitem.
+       COPY todoactions.
+       COPY todoitem.
        PROCEDURE DIVISION USING TODO-ACTION NEW-TODO-ITEM.
+
+           PERFORM COUNT-LINES-IN-FILE
+
            EVALUATE TRUE
            WHEN ACTION-SHOW
               PERFORM READ-TODOLIST-FROM-FILE
@@ -39,7 +42,7 @@
               PERFORM CLEAR-LIST
            END-EVALUATE
            GOBACK
-          .
+           .
 
        ADD-NEW-TODO-ITEM SECTION.
            ADD 1 TO NUMBER-OF-TODOS
@@ -64,29 +67,49 @@
           EXIT.
 
        DISPLAY-ITEM SECTION.
-          DISPLAY "<li>" ITEM-CONTENT IN WS-TDLIST "</li>"
-          EXIT.
+           DISPLAY
+               '<li>'
+               '<input type="button" value="×" onclick="deleteItem('
+                   ITEM-ID IN WS-TDLIST
+               ');"/>'
+                   ITEM-CONTENT IN WS-TDLIST
+               '</li>'
+           EXIT.
 
        DELETE-ITEM SECTION.
            MOVE SPACES TO TODO-ITEM (ITEM-TO-DELETE)
            PERFORM WITH TEST AFTER
-             VARYING COUNTER FROM ITEM-TO-DELETE BY 1 UNTIL
-                  COUNTER = NUMBER-OF-TODOS
-                MOVE TODO-ITEM(COUNTER + 1)
-                  TO TODO-ITEM(COUNTER)
+               VARYING COUNTER FROM ITEM-TO-DELETE BY 1 UNTIL
+                   COUNTER = NUMBER-OF-TODOS
+               MOVE TODO-ITEM(COUNTER + 1)
+               TO TODO-ITEM(COUNTER)
            END-PERFORM
-          EXIT.
+           EXIT.
+
        READ-TODOLIST-FROM-FILE SECTION.
-             OPEN INPUT TDLIST
-             DISPLAY "<ul>"
-             PERFORM UNTIL WS-EOF='Y'
-                 READ TDLIST INTO WS-TDLIST
-                    AT END MOVE 'Y' TO WS-EOF
-                    NOT AT END PERFORM DISPLAY-ITEM
-                 END-READ
-             END-PERFORM
-             DISPLAY "</ul>"
-             CLOSE TDLIST
-          EXIT.
+           OPEN INPUT TDLIST
+           MOVE "N" TO WS-EOF
+           DISPLAY "<ul>"
+           PERFORM UNTIL WS-EOF = "Y"
+               READ TDLIST INTO WS-TDLIST
+                   AT END MOVE 'Y' TO WS-EOF
+                   NOT AT END PERFORM DISPLAY-ITEM
+               END-READ
+           END-PERFORM
+           DISPLAY "</ul>"
+           CLOSE TDLIST
+           EXIT.
+
+       COUNT-LINES-IN-FILE SECTION.
+           OPEN INPUT TDLIST
+           MOVE "N" TO WS-EOF
+           PERFORM UNTIL WS-EOF = "Y"
+               READ TDLIST INTO WS-TDLIST
+                   AT END MOVE "Y" TO WS-EOF
+                   NOT AT END ADD 1 TO NUMBER-OF-TODOS
+               END-READ
+           END-PERFORM
+           CLOSE TDLIST
+           EXIT.
 
        END PROGRAM TODOLISTE.

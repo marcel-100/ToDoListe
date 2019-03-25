@@ -1,0 +1,49 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"[COBOL]": {
+			"editor.renderIndentGuides": false,
+			"editor.useTabStops": false,
+			"editor.renderWhitespace": "none",
+			"editor.trimAutoWhitespace": true,
+			"files.trimTrailingWhitespace": true,
+		},
+		"coboleditor.ignorecolumn_b_onwards": true,
+		"coboleditor.fileformat": [
+			{
+				"pattern": "**/*.cbl",
+				"sourceformat": "fixed"
+			},
+			{
+				"pattern": "**/*.cob",
+				"sourceformat": "fixed"
+			}
+		],
+		"coboleditor.tabstops": [
+			0,
+			7,
+			11,
+			15,
+			19,
+			23,
+			27,
+			31,
+			35,
+			39,
+			43,
+			47,
+			51,
+			55,
+			59,
+			63,
+			67,
+			71,
+			75,
+			79
+		]
+	}
+}

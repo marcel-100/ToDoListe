@@ -1,6 +1,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
     <script type="text/javascript">
     function initXmlRequests() {
         var xmlHttpReq = false;
@@ -23,13 +24,16 @@
         }
     }
     function addToTodolist() {
+
         initXmlRequests();
         var form = document.forms['f1'];
         var word = form.content.value;
+
         qstr = 'content=' + escape(word);  // NOTE: no '?' before querystring
         qstr = qstr + "&action=add\n"
         self.xmlHttpReq.send(qstr);
         showTodoList();
+
     }
     function showTodoList() {
         initXmlRequests();
@@ -41,19 +45,30 @@
     }
 
     function updatepage(str){
-        document.getElementById("result").innerHTML = str;
+        document.getElementById("result").innerHTML = decodeURI(str);
     }
-    window.onload = showTodoList;
+
+    function deleteItem(id) {
+        initXmlRequests();
+        self.xmlHttpReq.send("action=delete&content=1\n");
+    }
+
+    addEventListener("load", showTodoList);
+
     </script>
-    <title>ToDo Liste in COBOL</title>
+    <title>To-do-Liste in COBOL</title>
 </head>
 <body>
-    Eine ToDo Liste in COBOL<br><p>
+    <div class="container">
+        <div class="header">
+            <h1>Eine To-do-Liste in COBOL</h1>
+        </div>
         <form name="f1">
-            <p>Todo hinzuf&uuml;gen: <input name="content" type="text" text="50">
-                <input value="Eintragen" type="button" onclick='javascript:addToTodolist()'></p>
-                <input value="Liste löschen" type="button" onclick='javascript:clearList()'></p>
-                <div id="result"></div>
-            </form>
-        </body>
-        </html>
+            <input name="content" type="text" text="50" autofocus>
+            <input value="Eintragen" type="button" onclick="addToTodolist();"><br />
+            <input value="Liste löschen" type="button" onclick='javascript:clearList()'>
+        </form>
+        <div id="result"></div>
+    </div>
+</body>
+</html>
