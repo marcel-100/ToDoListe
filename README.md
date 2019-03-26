@@ -31,7 +31,7 @@ vagrant ssh
 
 Wer nicht den Weg über Vagrant gehen möchte, kann wie folgt vorgehen:
 
-1. Installation von [GnuCOBOL 3.0 RC1](ttps://sourceforge.net/projects/open-cobol/files/gnu-cobol/3.0/gnucobol-3.0-rc1.tar.gz/download")
+1. Installation von [GnuCOBOL 3.0 RC1](https://sourceforge.net/projects/open-cobol/files/gnu-cobol/3.0/gnucobol-3.0-rc1.tar.gz/download)
    über das Skript `installcobol3.sh` oder von Hand.
 2. Vorbereitung des Webservers mit `bootstrap.sh`.
 
