@@ -33,7 +33,7 @@
         qstr = qstr + "&action=add\n"
         self.xmlHttpReq.send(qstr);
 		form.content.value = '';
-        showTodoList();
+        setTimeout(showTodoList, 250);
 
     }
     function showTodoList() {
@@ -51,7 +51,8 @@
 
     function deleteItem(id) {
         initXmlRequests();
-        self.xmlHttpReq.send("action=delete&content=1\n");
+        self.xmlHttpReq.send("content=" + id + "&action=delete-item\n");
+        setTimeout(showTodoList, 250);
     }
 
     addEventListener("load", showTodoList);

@@ -13,6 +13,7 @@ Features
 --------
 
 - [x] Eintrag erstellen
+- [ ] Eintrag erstellen mit Enter
 - [x] Alle Einträge löschen
 - [ ] Einzelne Einträge löschen
 - [ ] Einzelne Einträge bearbeiten
