@@ -1,36 +1,50 @@
+Minimale ToDo-Liste in GnuCOBOL
+============================
+
 [![Build Status](https://api.travis-ci.org/marcel-100/ToDoListe.svg?branch=master)](https://travis-ci.org/marcel-100/ToDoListe)
 
-### Minimale ToDo-Liste in COBOL
-Dieses Projekt bietet eine minimale ToDo-Listen Funktionlität in COBOL:
-Es ist möglich:
- * einen ToDo-Eintrag zu erstellen
- * alle Einträge zu löschen.
+Dieses Projekt bietet eine minimale To-do-Listenfunktionalität im Webbrowser mit
+[GnuCOBOL](https://sourceforge.net/projects/open-cobol/) auf der Serverseite. Es
+ist möglich:
 
-Die Einträge werden dabei in eine Datei geschrieben.
+- einen To-do-Eintrag zu erstellen und
+- alle Einträge zu löschen.
 
-### Setup
-Am einfachsten ist wohl ein Setup mittels [Vagrant](https://www.vagrantup.com/).
-Nach der Installation von Vagrant das git-Repo clonen und in der Kommandozeile
-```
+Die Einträge werden dabei serverseitig sequenziell in eine Textdatei geschrieben.
+
+Setup
+-----
+
+### Mit Vagrant z.&nbsp;B. unter Windows
+
+Dieses Projekt ist für den Einsatz von [Vagrant](https://www.vagrantup.com/)
+vorbereitet. Nach der Installation von Vagrant und dem Clonen dieses Repositorys
+kann aus der Kommandozeile des Host-Systems das Entwicklungssystem gestartet
+werden:
+
+```bash
 vagrant up
-```
-eingeben.
-
-Verbindet man sich anschließend per
-```
 vagrant ssh
 ```
-und führt im Verzeichnis ```/vagrant``` nacheinander
-```
-make
-```
-und
-```
-make run-server
-```
-aus, sollte die ToDo-Liste unter http://localhost:8080 erreichbar sein.
 
-#### Manuelle Installation
-Wer schon Linux benutzt und nicht den Umweg über Vagrant gehen möchte, kann folgendes machen:
- * Installation von GnuCOBOL 3.0 RC1. Z.Bsp. über das Skript ```installcobol3.sh```.
- * Anschließend Ausführen der ```bootstrap.sh```, um den Apache zu konfigurieren.
+### Ohne Vagrant
+
+Wer nicht den Weg über Vagrant gehen möchte, kann wie folgt vorgehen:
+
+1. Installation von [GnuCOBOL 3.0
+   RC1](ttps://sourceforge.net/projects/open-cobol/files/gnu-cobol/3.0/gnucobol-3.0-rc1.tar.gz/download")
+   über das Skript `installcobol3.sh` oder von Hand.
+2. Vorbereitung des Webservers mit `bootstrap.sh`.
+
+Kompilieren und Ausführen
+-------------------------
+
+Zum Kompilieren liegt dem Projekt ein Makefile bei:
+
+| Befehl            | Beschreibung                                                     |
+| ----------------- | ---------------------------------------------------------------- |
+| `make run-server` | Kompiliert das Projekt und startet einen Webserver auf Port 8080 |
+| `make`            | Kompiliert das Projekt                                           |
+
+Die beiliegendende Vagrant-Konfiguration lässt den Webserver auch vom Hostsystem
+aus unter http://localhost:8080/ erreichen.
