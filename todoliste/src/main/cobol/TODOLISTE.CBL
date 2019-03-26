@@ -71,7 +71,16 @@
        DISPLAY-ITEM SECTION.
            DISPLAY
                '<li>'
-               '<input type="button" value="×" onclick="deleteItem('
+               '<input  type="checkbox"'
+                   'onclick="checkItem('
+                   ITEM-ID IN WS-TDLIST
+               ');"/>'
+               '<input  type="button" value="×"'
+                   'onclick="deleteItem('
+                   ITEM-ID IN WS-TDLIST
+               ');"/>'
+               '<input type="button" value="&#x270e"'
+                   'onclick="deleteItem('
                    ITEM-ID IN WS-TDLIST
                ');"/>'
                    ITEM-CONTENT IN WS-TDLIST

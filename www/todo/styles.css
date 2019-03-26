@@ -55,10 +55,13 @@ ul {
 }
 
 li {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   padding: 0;
   padding: 1em;
   list-style-position: inside;
-  list-style-type: "";
+  list-style: none;
 }
 
 li:nth-child(odd) {
@@ -73,4 +76,6 @@ li input {
   width: 2em;
   height: 2em; */
   font-size: 12pt;
+  width: 5em;
+  height: 5em;
 }
