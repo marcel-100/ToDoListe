@@ -8,26 +8,27 @@ Dieses Projekt bietet eine minimale To-do-Listenfunktionalität im Webbrowser mi
 
 Die Einträge werden dabei serverseitig sequenziell in eine Textdatei geschrieben.
 
-
 Features
 --------
 
 - [x] Eintrag erstellen
-- [ ] Eintrag erstellen mit Enter
+- [ ] Lange Einträge darstellen mit CSS
+- [x] Eintrag erstellen mit Enter
 - [x] Alle Einträge löschen
-- [ ] Einzelne Einträge löschen
+- [x] Einzelne Einträge löschen
 - [ ] Einzelne Einträge bearbeiten
 - [ ] Einzelne Einträge als fertig markieren
 - [ ] Einträge durchnummerieren
+- [ ] Einträge verschieben (auf und ab)
 - [ ] Fälligkeitsdatum für Eintrag
 - [x] Texteingabefeld automatisch leeren
-- [ ] Übliche Sonderzeichen zulassen
-- [ ] Höhere Unicode-Zeichen zulassen (z.&nbsp;B. Emojis)
+- [x] Übliche Sonderzeichen zulassen
+- [x] Höhere Unicode-Zeichen zulassen (z. B. Emojis)
 
 Setup
 -----
 
-### Mit Vagrant z.&nbsp;B. unter Windows
+### Mit Vagrant z. B. unter Windows ###
 
 Dieses Projekt ist für den Einsatz von [Vagrant](https://www.vagrantup.com/)
 vorbereitet. Nach der Installation von Vagrant und dem Clonen dieses Repositorys
@@ -41,7 +42,7 @@ make
 make run-server
 ```
 
-### Ohne Vagrant
+### Ohne Vagrant ###
 
 Wer nicht den Weg über Vagrant gehen möchte, kann wie folgt vorgehen:
 
@@ -60,4 +61,4 @@ Zum Kompilieren liegt dem Projekt ein Makefile bei:
 | `make`            | Kompiliert das Projekt                                           |
 
 Die beiliegendende Vagrant-Konfiguration lässt den Webserver auch vom Hostsystem
-aus unter http://localhost:8080/ erreichen.
+aus unter [http://localhost:8080/](http://localhost:8080/) erreichen.
