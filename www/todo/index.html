@@ -51,7 +51,7 @@
     }
 
     function updatepage(str){
-        document.getElementById("result").innerHTML = str;
+        document.getElementById("result").innerHTML = decodeURI(str);
     }
 
     function deleteItem(id) {
