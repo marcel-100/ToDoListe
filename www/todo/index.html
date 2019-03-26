@@ -26,14 +26,19 @@
     function addToTodolist() {
 
         initXmlRequests();
-        var form = document.forms['f1'];
-        var word = form.content.value;
+      
+        var word = document.getElementById('content').value;
 
-        qstr = 'content=' + escape(word);  // NOTE: no '?' before querystring
-        qstr = qstr + "&action=add\n"
-        self.xmlHttpReq.send(qstr);
-		form.content.value = '';
-        setTimeout(showTodoList, 250);
+        if (word === "") {
+            alert("Bitte einen Text eingeben.")
+        } else {
+
+            qstr = 'content=' + escape(word);  // NOTE: no '?' before querystring
+            qstr = qstr + "&action=add\n"
+            self.xmlHttpReq.send(qstr);
+            document.getElementById('content').value = '';
+            setTimeout(showTodoList, 250);
+        }
 
     }
     function showTodoList() {
@@ -44,16 +49,21 @@
         initXmlRequests();
         self.xmlHttpReq.send("action=delete\n");
     }
-    
 
     function updatepage(str){
-        document.getElementById("result").innerHTML = decodeURI(str);
+        document.getElementById("result").innerHTML = str;
     }
 
     function deleteItem(id) {
         initXmlRequests();
         self.xmlHttpReq.send("content=" + id + "&action=delete-item\n");
         setTimeout(showTodoList, 250);
+    }
+
+    function handleTextInput(e) {
+        if (e.keyCode === 13) {
+            addToTodolist();
+        }
     }
 
     addEventListener("load", showTodoList);
@@ -64,14 +74,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <b>asdfEine To-do-Liste in COBOL</b>
+            <h1>To-do-Liste in COBOL</h1>
         </div>
-        <form name="f1">
-            <input name="content" type="text" text="50" autofocus>
-            <input value="Eintragen" type="button" onclick="addToTodolist();"><br />
-            <input value="Liste löschen" type="button" onclick='javascript:clearList()'>
-        </form>
-        <div id="result"></div>
+        <div class="form">
+        <input id="content" type="text" text="50"  onkeypress="handleTextInput(event);" autofocus>
+        <input value="Eintragen" type="button" onclick="addToTodolist();"><br />
+        <input value="Liste löschen" type="button" onclick='javascript:clearList()'>
+    </div>
+        <div>
+            <ul id="result"></ul>
+        </div>
     </div>
 </body>
 </html>

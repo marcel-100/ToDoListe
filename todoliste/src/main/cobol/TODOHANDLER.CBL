@@ -10,7 +10,7 @@
        DATA DIVISION.
        FILE SECTION.
        FD WEBINPUT.
-          01 CHUNK-OF-POST     PIC X(1024).
+          01 CHUNK-OF-POST     PIC X(2048).
 
        WORKING-STORAGE SECTION.
        01 IN-STATUS            PIC 9999.

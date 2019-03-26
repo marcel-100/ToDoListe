@@ -13,7 +13,7 @@
           FD TDLIST.
           01 TDLIST-FILE.
              05 ITEM-ID PIC 9(5).
-             05 ITEM-CONTENT PIC X(35).
+             05 ITEM-CONTENT PIC X(1024).
        WORKING-STORAGE SECTION.
        01 TEMP-FIELDS.
         05  ITEM-TO-DELETE          PIC 99999.
@@ -21,11 +21,11 @@
            88 LIST-IS-EMPTY VALUE ZERO.
         05  COUNTER                 PIC 99999.
         05  TODOLISTE.
-            07  TODO-ITEM PIC X(35) OCCURS 99999.
+            07  TODO-ITEM PIC X(1024) OCCURS 99999.
         01 WS-EOF PIC A(1).
         01 WS-TDLIST.
            05 ITEM-ID PIC 9(5).
-           05 ITEM-CONTENT PIC X(35).
+           05 ITEM-CONTENT PIC X(1024).
        LINKAGE SECTION.
        COPY todoactions.
        COPY todoitem.
@@ -71,18 +71,18 @@
        DISPLAY-ITEM SECTION.
            DISPLAY
                '<li>'
-               '<input  type="checkbox"'
-                   'onclick="checkItem('
-                   ITEM-ID IN WS-TDLIST
-               ');"/>'
+              *>  '<input  type="checkbox"'
+              *>      'onclick="checkItem('
+              *>      ITEM-ID IN WS-TDLIST
+              *>  ');"/>'
                '<input  type="button" value="×"'
                    'onclick="deleteItem('
                    ITEM-ID IN WS-TDLIST
                ');"/>'
-               '<input type="button" value="&#x270e"'
-                   'onclick="deleteItem('
-                   ITEM-ID IN WS-TDLIST
-               ');"/>'
+              *>  '<input type="button" value="&#x270e"'
+              *>      'onclick="deleteItem('
+              *>      ITEM-ID IN WS-TDLIST
+              *>  ');"/>'
                    ITEM-CONTENT IN WS-TDLIST
                '</li>'
            EXIT.
@@ -140,14 +140,14 @@
        READ-TODOLIST-FROM-FILE SECTION.
            OPEN INPUT TDLIST
            MOVE "N" TO WS-EOF
-           DISPLAY "<ul>"
+
            PERFORM UNTIL WS-EOF = "Y"
                READ TDLIST INTO WS-TDLIST
                    AT END MOVE 'Y' TO WS-EOF
                    NOT AT END PERFORM DISPLAY-ITEM
                END-READ
            END-PERFORM
-           DISPLAY "</ul>"
+
            CLOSE TDLIST
            EXIT.
 
