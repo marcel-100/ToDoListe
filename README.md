@@ -4,13 +4,24 @@ Minimale ToDo-Liste in GnuCOBOL
 [![Build Status](https://api.travis-ci.org/marcel-100/ToDoListe.svg?branch=master)](https://travis-ci.org/marcel-100/ToDoListe)
 
 Dieses Projekt bietet eine minimale To-do-Listenfunktionalität im Webbrowser mit
-[GnuCOBOL](https://sourceforge.net/projects/open-cobol/) auf der Serverseite. Es
-ist möglich:
-
-- einen To-do-Eintrag zu erstellen und
-- alle Einträge zu löschen.
+[GnuCOBOL](https://sourceforge.net/projects/open-cobol/) auf der Serverseite.
 
 Die Einträge werden dabei serverseitig sequenziell in eine Textdatei geschrieben.
+
+
+Features
+--------
+
+- [x] Eintrag erstellen
+- [x] Alle Einträge löschen
+- [ ] Einzelne Einträge löschen
+- [ ] Einzelne Einträge bearbeiten
+- [ ] Einzelne Einträge als fertig markieren
+- [ ] Einträge durchnummerieren
+- [ ] Fälligkeitsdatum für Eintrag
+- [x] Texteingabefeld automatisch leeren
+- [ ] Übliche Sonderzeichen zulassen
+- [ ] Höhere Unicode-Zeichen zulassen (z.&nbsp;B. Emojis)
 
 Setup
 -----
