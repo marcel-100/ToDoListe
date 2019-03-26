@@ -36,6 +36,8 @@ werden:
 ```bash
 vagrant up
 vagrant ssh
+make
+make run-server
 ```
 
 ### Ohne Vagrant
