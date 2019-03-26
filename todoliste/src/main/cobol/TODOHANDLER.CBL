@@ -10,7 +10,7 @@
        DATA DIVISION.
        FILE SECTION.
        FD WEBINPUT.
-          01 CHUNK-OF-POST     PIC X(1024).
+          01 CHUNK-OF-POST     PIC X(2048).
 
        WORKING-STORAGE SECTION.
        01 IN-STATUS            PIC 9999.
@@ -19,11 +19,18 @@
        COPY cgiutildata.
 
        PROCEDURE DIVISION.
+
+
+
            PERFORM U01-PRINT-HEADER
-           
+
            PERFORM U00-PARSE-WEBINPUT
 
            PERFORM READ-TODOLIST-ACTION
+
+          *>  DISPLAY CHUNK-OF-POST UPON SYSERR
+
+
 
            EVALUATE TRUE
            WHEN ACTION-ADD
@@ -32,6 +39,8 @@
              PERFORM SHOW-TODOLIST
            WHEN ACTION-DELETE
              PERFORM DELETE-TODOLIST
+           WHEN ACTION-DELETE-ITEM
+             PERFORM DELETE-ITEM
            WHEN OTHER
              DISPLAY "Action unbekannt: " TODO-ACTION
            END-EVALUATE
@@ -74,4 +83,10 @@
        DELETE-TODOLIST SECTION.
           CALL "TODOLISTE" USING TODO-ACTION
           EXIT.
+
+       DELETE-ITEM SECTION.
+           MOVE "content" TO PARAMETER-NAME
+           PERFORM READ-PARAMETER-VALUE
+           CALL "TODOLISTE" USING TODO-ACTION PARAMETER-VALUE
+           EXIT.
        END PROGRAM TODOHANDLER.

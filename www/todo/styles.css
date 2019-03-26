@@ -35,7 +35,7 @@ h1 {
   background: rgba(255, 255, 255, 0.33);
 }
 
-form {
+.form {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -72,10 +72,9 @@ li input {
   margin-right: 1em;
   color: red;
   /* background-color: rgb(255, 150, 150);
-  border: none;
-  width: 2em;
-  height: 2em; */
+  border: none;*/
+  width: 3em;
+  height: 3em;
   font-size: 12pt;
-  width: 5em;
-  height: 5em;
+  padding: 0;
 }

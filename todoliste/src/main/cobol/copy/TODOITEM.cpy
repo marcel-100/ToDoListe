@@ -1,1 +1,0 @@
-       01 NEW-TODO-ITEM PIC X(35).
