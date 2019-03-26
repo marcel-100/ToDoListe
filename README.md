@@ -13,9 +13,9 @@ Features
 --------
 
 - [x] Eintrag erstellen
-- [ ] Eintrag erstellen mit Enter
+- [X] Eintrag erstellen mit Enter
 - [x] Alle Einträge löschen
-- [ ] Einzelne Einträge löschen
+- [X] Einzelne Einträge löschen
 - [ ] Einzelne Einträge bearbeiten
 - [ ] Einzelne Einträge als fertig markieren
 - [ ] Einträge durchnummerieren
