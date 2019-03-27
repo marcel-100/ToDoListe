@@ -15,7 +15,7 @@
       else if (window.ActiveXObject) {
         self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
       }
-      self.xmlHttpReq.open('POST', 'http://' + window.location.host + '/cgi-bin/todohandler', true);
+      self.xmlHttpReq.open('POST', 'http://' + window.location.host + '/cgi-bin/todohandler', false);
       self.xmlHttpReq.setRequestHeader('Content-Type',
         'application/x-www-form-urlencoded');
       self.xmlHttpReq.onreadystatechange = function () {
@@ -39,7 +39,7 @@
         qstr = qstr + "&action=add\n"
         self.xmlHttpReq.send(qstr);
         document.getElementById('content').value = '';
-        setTimeout(showTodoList, 250);
+        showTodoList();
       }
 
     }
@@ -84,8 +84,8 @@
 
     function deleteItem(id) {
       initXmlRequests();
-      self.xmlHttpReq.send("content=" + id + "&action=delete-item\n");
-      setTimeout(showTodoList, 250);
+      self.xmlHttpReq.send("id=" + id + "&action=delete-item&newparam=FooBar\n");
+      showTodoList();
     }
 
     function handleTextInput(e) {
