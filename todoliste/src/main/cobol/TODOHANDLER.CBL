@@ -15,6 +15,8 @@
        WORKING-STORAGE SECTION.
        01 IN-STATUS PIC 9999.
        01 NEWLINE PIC X VALUE X'0A'.
+       01 PARAMETER-VALUE-1 PIC X(1024).
+       01 PARAMETER-VALUE-2 PIC X(1024).
        COPY todoactions.
        COPY cgiutildata.
 
@@ -39,6 +41,8 @@
                    PERFORM DELETE-TODOLIST
                WHEN ACTION-DELETE-ITEM
                    PERFORM DELETE-ITEM
+               WHEN ACTION-EDIT-ITEM
+                   PERFORM EDIT-ITEM
                WHEN OTHER
                    DISPLAY "Action unbekannt: " TODO-ACTION
            END-EVALUATE
@@ -66,6 +70,8 @@
            MOVE CHUNK-OF-POST TO REQUEST-STRING
            .
 
+           EXIT.
+
       * -------------------------------------------------------------- *
 
        U01-PRINT-HEADER SECTION.
@@ -73,12 +79,16 @@
            NEWLINE
            .
 
+           EXIT.
+
       * -------------------------------------------------------------- *
 
        READ-PARAMETER-VALUE SECTION.
            MOVE CHUNK-OF-POST TO REQUEST-STRING
            CALL "CGIUTIL" USING REQUEST-PARAMETERS
            .
+
+           EXIT.
 
       * -------------------------------------------------------------- *
 
@@ -111,11 +121,23 @@
       * -------------------------------------------------------------- *
 
        DELETE-ITEM SECTION.
-           MOVE "content" TO PARAMETER-NAME
-           PERFORM READ-PARAMETER-VALUE
-           CALL "TODOLISTE" USING TODO-ACTION PARAMETER-VALUE
-           EXIT.
 
+           MOVE "id" TO PARAMETER-NAME
+           PERFORM READ-PARAMETER-VALUE
+           MOVE PARAMETER-VALUE TO PARAMETER-VALUE-1
+           CALL "TODOLISTE" USING
+               TODO-ACTION PARAMETER-VALUE-1
+           EXIT.
+      * -------------------------------------------------------------- *
+       EDIT-ITEM SECTION.
+           MOVE "id" TO PARAMETER-NAME
+           PERFORM READ-PARAMETER-VALUE
+           MOVE PARAMETER-VALUE TO PARAMETER-VALUE-1
+           MOVE PARAMETER-VALUE TO PARAMETER-VALUE-2
+           CALL "TODOLISTE" USING
+               TODO-ACTION PARAMETER-VALUE-1 PARAMETER-VALUE-2
+
+       EXIT.
       * -------------------------------------------------------------- *
 
        END PROGRAM TODOHANDLER.

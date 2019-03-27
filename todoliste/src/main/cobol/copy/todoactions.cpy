@@ -3,3 +3,4 @@
           88 ACTION-SHOW VALUE "show".
           88 ACTION-DELETE VALUE "delete".
           88 ACTION-DELETE-ITEM VALUE "delete-item".
+          88 ACTION-EDIT-ITEM VALUE "edit".

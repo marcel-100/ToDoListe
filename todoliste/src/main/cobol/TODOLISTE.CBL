@@ -32,10 +32,12 @@
        LINKAGE SECTION.
        COPY todoactions.
        COPY todoitem.
+           01 PARAMETER-VALUE-2 PIC X(1024).
 
-      * -------------------------------------------------------------- *
+      * ------------------------ACTION-------------------------------- *
 
-       PROCEDURE DIVISION USING TODO-ACTION NEW-TODO-ITEM.
+       PROCEDURE DIVISION USING TODO-ACTION NEW-TODO-ITEM
+           PARAMETER-VALUE-2.
 
            PERFORM COUNT-LINES-IN-FILE
 
@@ -48,22 +50,23 @@
                    PERFORM CLEAR-LIST
                WHEN ACTION-DELETE-ITEM
                    PERFORM DELETE-ITEM
+               WHEN ACTION-EDIT-ITEM
+                   PERFORM EDIT-ITEM
            END-EVALUATE
 
            GOBACK.
 
-      * -------------------------------------------------------------- *
-
+      * ------------------------ADD----------------------------------- *
        ADD-NEW-TODO-ITEM SECTION.
 
            ADD 1 TO NUMBER-OF-TODOS
 
            MOVE NEW-TODO-ITEM
-               TO TODO-ITEM (NUMBER-OF-TODOS)
+            TO TODO-ITEM (NUMBER-OF-TODOS)
            MOVE NUMBER-OF-TODOS
-               TO ITEM-ID IN WS-TDLIST
+            TO ITEM-ID IN WS-TDLIST
            MOVE NEW-TODO-ITEM
-               TO ITEM-CONTENT IN WS-TDLIST
+            TO ITEM-CONTENT IN WS-TDLIST
 
            OPEN EXTEND TDLIST
            WRITE TDLIST-FILE FROM WS-TDLIST
@@ -71,85 +74,93 @@
 
            EXIT.
 
-      * -------------------------------------------------------------- *
-
+      * ------------------------CLEAR--------------------------------- *
        CLEAR-LIST SECTION.
 
            OPEN OUTPUT TDLIST
            CLOSE TDLIST
            EXIT.
 
-      * -------------------------------------------------------------- *
-
+      * ------------------------DISPLAY------------------------------- *
        DISPLAY-ITEM SECTION.
 
            DISPLAY
                '<li>'
-              *>  '<input  type="checkbox"'
-              *>      'onclick="checkItem('
-              *>      ITEM-ID IN WS-TDLIST
-              *>  ');"/>'
                '<input type="button" value="×" '
                    'onclick="deleteItem('
                    ITEM-ID IN WS-TDLIST
                ');"/> '
-              *>  '<input type="button" value="&#x270e"'
-              *>      'onclick="deleteItem('
-              *>      ITEM-ID IN WS-TDLIST
-              *>  ');"/>'
                    ITEM-CONTENT IN WS-TDLIST  '</li>'
+       EXIT.
 
-           EXIT.
+      * ------------------------WRITE--------------------------------- *
+       WRITE-FILE SECTION.
 
-      * -------------------------------------------------------------- *
+              OPEN OUTPUT TDLIST
+                  PERFORM VARYING COUNTER FROM 1 BY 1
+                  UNTIL COUNTER > NUMBER-OF-TODOS
+                      MOVE COUNTER
+                       TO ITEM-ID IN WS-TDLIST
+                      MOVE TODO-ITEM (COUNTER)
+                       TO ITEM-CONTENT IN WS-TDLIST
+                      WRITE TDLIST-FILE FROM WS-TDLIST
+                  END-PERFORM
+              CLOSE TDLIST
 
-       DELETE-ITEM SECTION.
+       EXIT.
 
+      * ------------------------MOVE---------------------------------- *
+       MOVE-ITEM SECTION.
            PERFORM READ-TODOLIST-FROM-FILE-TO-RAM
 
            COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
 
-           DISPLAY "'" TODO-ACTION "' '" ITEM-TO-DELETE "'"
-               UPON SYSERR
+           MOVE TODO-ITEM(ITEM-TO-DELETE)
+            TO ITEM-CONTENT IN WS-TDLIST
 
-           MOVE SPACES TO TODO-ITEM (ITEM-TO-DELETE)
+           IF PARAMETER-VALUE-2 = "up" THEN
+               MOVE TODO-ITEM(ITEM-TO-DELETE + 1)
+                TO TODO-ITEM(ITEM-TO-DELETE)
+               MOVE ITEM-CONTENT IN WS-TDLIST
+                TO TODO-ITEM(ITEM-TO-DELETE + 1)
+           ELSE
+               MOVE TODO-ITEM(ITEM-TO-DELETE + 1)
+                TO TODO-ITEM(ITEM-TO-DELETE)
+               MOVE ITEM-CONTENT IN WS-TDLIST
+                TO TODO-ITEM(ITEM-TO-DELETE + 1)
+           END-IF
 
+           PERFORM WRITE-FILE
+
+       EXIT.
+
+      *v3 == der dritte Parameter
+      *ITEM-TO-DELETE == die ID
+
+      * ------------------------DELETE-------------------------------- *
+       DELETE-ITEM SECTION.
+           PERFORM READ-TODOLIST-FROM-FILE-TO-RAM
+           COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
            PERFORM WITH TEST AFTER
-
-               VARYING COUNTER FROM ITEM-TO-DELETE BY 1 UNTIL
-                   COUNTER = NUMBER-OF-TODOS
-
-               DISPLAY COUNTER UPON SYSERR
-
+               VARYING COUNTER FROM ITEM-TO-DELETE BY 1
+                UNTIL COUNTER = NUMBER-OF-TODOS
                MOVE TODO-ITEM(COUNTER + 1)
-               TO TODO-ITEM(COUNTER)
-
+                TO TODO-ITEM(COUNTER)
            END-PERFORM
-
-           OPEN OUTPUT TDLIST
-
            SUBTRACT 1 FROM NUMBER-OF-TODOS GIVING NUMBER-OF-TODOS
+           PERFORM WRITE-FILE
 
-               PERFORM VARYING COUNTER FROM 1 BY 1
-               UNTIL COUNTER > NUMBER-OF-TODOS
+       EXIT.
 
-                   DISPLAY TODO-ITEM(COUNTER) UPON SYSERR
+      * ------------------------EDIT---------------------------------- *
+       EDIT-ITEM SECTION.
+           PERFORM READ-TODOLIST-FROM-FILE-TO-RAM
+           COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
+           MOVE PARAMETER-VALUE-2 TO TODO-ITEM(ITEM-TO-DELETE)
+           PERFORM WRITE-FILE
+       EXIT.
 
-                   MOVE COUNTER
-                   TO ITEM-ID IN WS-TDLIST
-               MOVE TODO-ITEM (COUNTER)
-                   TO ITEM-CONTENT IN WS-TDLIST
-
-               WRITE TDLIST-FILE FROM WS-TDLIST
-
-               END-PERFORM
-
-           CLOSE TDLIST
-
-           EXIT.
-
-      * -------------------------------------------------------------- *
-
+      * ------------------------READ---------------------------------- *
        READ-TODOLIST-FROM-FILE SECTION.
 
            OPEN INPUT TDLIST
@@ -163,12 +174,10 @@
            END-PERFORM
 
            CLOSE TDLIST
-           EXIT.
+       EXIT.
 
-      * -------------------------------------------------------------- *
-
+      * ------------------------READ-JSON----------------------------- *
        READ-TODOLIST-FROM-FILE-AS-JSON SECTION.
-
            OPEN INPUT TDLIST
            MOVE "N" TO WS-EOF
            MOVE 0 TO COUNTER
@@ -188,7 +197,7 @@
                        END-IF
                        DISPLAY
                            FUNCTION TRIM(ITEM-CONTENT IN WS-TDLIST) '"'
-                           WITH NO ADVANCING
+                            WITH NO ADVANCING
                        ADD 1 TO COUNTER
                END-READ
            END-PERFORM
@@ -199,7 +208,7 @@
            CLOSE TDLIST
            EXIT.
 
-      * -------------------------------------------------------------- *
+      * ------------------------READ-RAM------------------------------ *
 
        READ-TODOLIST-FROM-FILE-TO-RAM SECTION.
 
@@ -212,15 +221,15 @@
                READ TDLIST INTO WS-TDLIST
                    AT END MOVE 'Y' TO WS-EOF
                    NOT AT END MOVE ITEM-CONTENT IN WS-TDLIST
-                   TO TODO-ITEM(COUNTER)
-                   ADD 1 TO COUNTER
+                    TO TODO-ITEM(COUNTER)
+                    ADD 1 TO COUNTER
                END-READ
            END-PERFORM
 
            CLOSE TDLIST
            EXIT.
 
-      * -------------------------------------------------------------- *
+      * ------------------------COUNT--------------------------------- *
 
        COUNT-LINES-IN-FILE SECTION.
 
