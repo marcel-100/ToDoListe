@@ -2,6 +2,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="styles.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet"> 
   <script type="text/javascript">
 
     function initXmlRequests() {
@@ -77,8 +78,13 @@
           try {
             element = unescape(element);
           } catch (error) { console.error(error); }
-          
-          domNode.innerHTML += `<li><input type="button" value="×" onclick="deleteItem(${++i});">${element}</li>`
+
+          i++;
+
+          domNode.innerHTML += `<li>
+            <input type="button" value="✖" onclick="deleteItem(${i});">
+            <input type="button" value="✏" onclick="editItem(${i}, '${element}');">
+            ${element}</li>`
         });
       }
     }
@@ -95,11 +101,16 @@
       }
     }
 
-    function editItem() {
-      initXmlRequests();
-      self.xmlHttpReq.send("action=edit&id=2&content=HalloWelt\n");
-      showTodoList();
+    function editItem(id, oldValue) {
+      const newValue = window.prompt("", oldValue);
+      if (newValue !== null && newValue !== "") {
+        initXmlRequests();
+        self.xmlHttpReq.send(`action=edit&id=${id}&content=${newValue}\n`);
+        showTodoList();
+      }
     }
+
+
 
     addEventListener("load", showTodoList);
 

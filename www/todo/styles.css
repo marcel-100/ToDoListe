@@ -6,7 +6,8 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3349a0', endColorstr='#dbc4af',GradientType=1 );
 
   box-sizing: padding-box;
-  font-family: sans-serif;
+
+  font-family: 'Slabo 27px', Verdana, Geneva, Tahoma, sans-serif;
   justify-content: center;
   margin: 0;
   min-height: calc(100vh - 5em);
@@ -27,6 +28,7 @@ h1 {
   margin: 5em auto;
   overflow: hidden;
   width: 40em;
+  border: solid 0.125em white;
 }
 
 .header {
