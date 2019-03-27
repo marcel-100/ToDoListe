@@ -25,8 +25,7 @@
        PROCEDURE DIVISION USING REQUEST-PARAMETERS.
 
            PERFORM PARSE-PARAMETER
-           GOBACK
-           .
+           GOBACK.
 
       * -------------------------------------------------------------- *
 

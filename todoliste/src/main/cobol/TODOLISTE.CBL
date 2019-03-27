@@ -32,10 +32,13 @@
        LINKAGE SECTION.
        COPY todoactions.
        COPY todoitem.
+              01 PARAMETER-VALUE-2 PIC X(1024).
+
 
       * -------------------------------------------------------------- *
 
-       PROCEDURE DIVISION USING TODO-ACTION NEW-TODO-ITEM.
+       PROCEDURE DIVISION USING TODO-ACTION NEW-TODO-ITEM
+           PARAMETER-VALUE-2.
 
            PERFORM COUNT-LINES-IN-FILE
 
@@ -48,6 +51,8 @@
                    PERFORM CLEAR-LIST
                WHEN ACTION-DELETE-ITEM
                    PERFORM DELETE-ITEM
+               WHEN ACTION-EDIT-ITEM
+                   PERFORM EDIT-ITEM
            END-EVALUATE
 
            GOBACK.
@@ -109,17 +114,12 @@
 
            COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
 
-           DISPLAY "'" TODO-ACTION "' '" ITEM-TO-DELETE "'"
-               UPON SYSERR
-
-           MOVE SPACES TO TODO-ITEM (ITEM-TO-DELETE)
+           MOVE SPACES TO TODO-ITEM(ITEM-TO-DELETE)
 
            PERFORM WITH TEST AFTER
 
                VARYING COUNTER FROM ITEM-TO-DELETE BY 1 UNTIL
                    COUNTER = NUMBER-OF-TODOS
-
-               DISPLAY COUNTER UPON SYSERR
 
                MOVE TODO-ITEM(COUNTER + 1)
                TO TODO-ITEM(COUNTER)
@@ -132,8 +132,6 @@
 
                PERFORM VARYING COUNTER FROM 1 BY 1
                UNTIL COUNTER > NUMBER-OF-TODOS
-
-                   DISPLAY TODO-ITEM(COUNTER) UPON SYSERR
 
                    MOVE COUNTER
                    TO ITEM-ID IN WS-TDLIST
@@ -237,6 +235,34 @@
            CLOSE TDLIST
 
            EXIT.
+
+      * -------------------------------------------------------------- *
+
+       EDIT-ITEM SECTION.
+
+           PERFORM READ-TODOLIST-FROM-FILE-TO-RAM
+
+           COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
+
+           MOVE PARAMETER-VALUE-2 TO TODO-ITEM(ITEM-TO-DELETE)
+
+           OPEN OUTPUT TDLIST
+
+              PERFORM VARYING COUNTER FROM 1 BY 1
+              UNTIL COUNTER > NUMBER-OF-TODOS
+
+              MOVE COUNTER
+              TO ITEM-ID IN WS-TDLIST
+              MOVE TODO-ITEM (COUNTER)
+              TO ITEM-CONTENT IN WS-TDLIST
+
+              WRITE TDLIST-FILE FROM WS-TDLIST
+
+              END-PERFORM
+
+           CLOSE TDLIST
+
+       EXIT.
 
       * -------------------------------------------------------------- *
 

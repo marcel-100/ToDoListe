@@ -85,7 +85,7 @@
 
     function deleteItem(id) {
       initXmlRequests();
-      self.xmlHttpReq.send("id=" + id + "&action=delete-item&newparam=FooBar\n");
+      self.xmlHttpReq.send("id=" + id + "&action=delete-item\n");
       showTodoList();
     }
 
@@ -93,6 +93,12 @@
       if (e.keyCode === 13) {
         addToTodolist();
       }
+    }
+
+    function editItem() {
+      initXmlRequests();
+      self.xmlHttpReq.send("action=edit&id=2&content=HalloWelt\n");
+      showTodoList();
     }
 
     addEventListener("load", showTodoList);
