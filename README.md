@@ -12,12 +12,12 @@ Features
 --------
 
 - [x] Eintrag erstellen
-- [ ] Lange Einträge darstellen mit CSS
+- [x] Lange Einträge darstellen mit CSS
 - [x] HTML-Injection unterbinden (Client-seitig)
 - [x] Eintrag erstellen mit Enter
 - [x] Alle Einträge löschen
 - [x] Einzelne Einträge löschen
-- [ ] Einzelne Einträge bearbeiten
+- [x] Einzelne Einträge bearbeiten
 - [ ] Einzelne Einträge als fertig markieren
 - [ ] Einträge durchnummerieren
 - [ ] Einträge verschieben (auf und ab)
