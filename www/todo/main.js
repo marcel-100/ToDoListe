@@ -1,3 +1,5 @@
+const HEADER_LENGTH = 128;
+
 /**
  * 
  */
@@ -29,14 +31,23 @@ function addToTodolist() {
 
   initXmlRequests();
 
-  var word = document.getElementById('content').value;
 
-  if (word === "") {
+  var header = document.getElementById('header').value;
+  header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
+
+
+  var note = document.getElementById('content').value;
+
+
+  if (note === "") {
     alert("Bitte einen Text eingeben.")
   } else {
 
-    qstr = 'content=' + escape(word);  // NOTE: no '?' before querystring
+    qstr = 'content=' + escape(header) + escape(note);  // NOTE: no '?' before querystring
     qstr = qstr + "&action=add\n"
+
+    console.log(qstr);
+
     self.xmlHttpReq.send(qstr);
     document.getElementById('content').value = '';
     showTodoList();
@@ -80,10 +91,14 @@ function updatepage(str) {
 
       i++;
 
+      var header = element.substr(0, HEADER_LENGTH);
+      var note = element.substr(HEADER_LENGTH, element.length);
+
       domNode.innerHTML += '<li>' +
         '<input type="button" value="✖" onclick="deleteItem(' + i + ');">' +
-        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + window.escape(element) + '\');">' + '<div class="eingabe">' +
-        replaceFormatting(escapeHtml(element)) + '</div>' + '</li>';
+        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">' + '<div class="eingabe">' +
+        '<h2>' + replaceFormatting(escapeHtml(header)) + '</h1>' +
+        replaceFormatting(escapeHtml(note)) + '</div>' + '</li>';
     });
   }
 }
@@ -111,12 +126,28 @@ function handleHeaderInput(e){
  * @param {number} id 
  * @param {string} oldValue 
  */
-function editItem(id, oldValue) {
-  var newValue = window.prompt("", window.unescape(oldValue));
-  if (newValue !== null && newValue !== "") {
-    initXmlRequests();
-    self.xmlHttpReq.send('action=edit&id=' + id + '&content=' + newValue + '\n');
-    showTodoList();
+function editItem(id, header, note) {
+
+  header = prompt("Überschrift", unescape(header).trim());
+    if (header !== null) {
+      note = prompt("Notiz", unescape(note).trim())
+    
+
+    if (header.length > HEADER_LENGTH) {
+      header = header.substr(0, HEADER_LENGTH);
+    }
+
+    
+    if (note !== null && note !== "") {
+
+      console.log(HEADER_LENGTH, header.length)
+
+      header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
+
+      initXmlRequests();
+      self.xmlHttpReq.send('action=edit&id=' + id + '&content=' + escape(header) + escape(note) + '\n');
+      showTodoList();
+    }
   }
 }
 
