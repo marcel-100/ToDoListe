@@ -78,3 +78,7 @@ li input {
   padding: 0;
   width: 3em;
 }
+
+.mono {
+  font-family: 'Courier New', Courier, monospace;
+}

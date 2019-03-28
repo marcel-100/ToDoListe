@@ -83,7 +83,7 @@ function updatepage(str) {
       domNode.innerHTML += '<li>' +
         '<input type="button" value="✖" onclick="deleteItem(' + i + ');">' +
         '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + window.escape(element) + '\');">' + '<div class="eingabe">' +
-        escapeHtml(element) + '</div>' + '</li>';
+        replaceFormatting(escapeHtml(element)) + '</div>' + '</li>';
     });
   }
 }
@@ -129,6 +129,35 @@ function escapeHtml(unsafe) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+function replaceFormatting(toDoItem) {
+  
+
+  console.log(toDoItem)
+
+  var bold = /\*\*([^\*\*]*\*\*[^\*\*]*)/gm;
+  var italic = /__([^__]*__[^__]*)/gm;
+  var strikeTrough = /~~([^~~]*~~[^~~]*)/gm;
+  var monospace = /```([^```]*```[^```]*)/gm;
+
+  toDoItem = toDoItem.replace(bold, "<b>$1");
+  toDoItem = toDoItem.replace(/\*\*/gm, "</b>");
+
+  toDoItem = toDoItem.replace(italic, "<i>$1");
+  toDoItem = toDoItem.replace(/__/gm, "</i>");
+
+  toDoItem = toDoItem.replace(strikeTrough, "<del>$1");
+  toDoItem = toDoItem.replace(/~~/gm, "</del>");
+
+  toDoItem = toDoItem.replace(monospace, "<span class='mono'>$1");
+  toDoItem = toDoItem.replace(/```/gm, "</span>");
+
+  
+  console.log(toDoItem)
+
+  return toDoItem;
+}
+
 
 // Warte mit der Ausführung von JavaScript, bis der Browser das Parsing des DOMs
 // abgeschlossen hat.
