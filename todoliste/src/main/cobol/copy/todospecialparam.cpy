@@ -1,1 +1,5 @@
+<<<<<<< HEAD
        01 TODO-SPECIAL-PARAM PIC X(1024).
+=======
+       01 TODO-SPECIAL-PARAM PIC X(1024).
+>>>>>>> 9c6ff18a0ff1f256441e51c0bb5ca687a9e2420b

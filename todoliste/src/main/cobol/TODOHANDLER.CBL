@@ -68,54 +68,67 @@
            CLOSE WEBINPUT
 
            MOVE CHUNK-OF-POST TO REQUEST-STRING
-           .
+
+           EXIT.
 
            EXIT.
 
       * -------------------------------------------------------------- *
 
        U01-PRINT-HEADER SECTION.
+
            DISPLAY "CONTENT-TYPE: TEXT/HTML"
            NEWLINE
-           .
+
+           EXIT.
 
            EXIT.
 
       * -------------------------------------------------------------- *
 
        READ-PARAMETER-VALUE SECTION.
+
            MOVE CHUNK-OF-POST TO REQUEST-STRING
            CALL "CGIUTIL" USING REQUEST-PARAMETERS
-           .
+
+           EXIT.
 
            EXIT.
 
       * -------------------------------------------------------------- *
 
        READ-TODOLIST-ACTION SECTION.
+
            MOVE "action" TO PARAMETER-NAME
            PERFORM READ-PARAMETER-VALUE
            MOVE PARAMETER-VALUE TO TODO-ACTION
+
            EXIT.
 
       * -------------------------------------------------------------- *
 
        ADD-TODOLIST-ENTRY SECTION.
+
            MOVE "content" TO PARAMETER-NAME
            PERFORM READ-PARAMETER-VALUE
            CALL "TODOLISTE" USING TODO-ACTION PARAMETER-VALUE
+
            EXIT.
 
       * -------------------------------------------------------------- *
 
        SHOW-TODOLIST SECTION.
+
            CALL "TODOLISTE" USING TODO-ACTION
+
            EXIT.
 
       * -------------------------------------------------------------- *
 
        DELETE-TODOLIST SECTION.
+
            CALL "TODOLISTE" USING TODO-ACTION
+
            EXIT.
 
       * -------------------------------------------------------------- *
