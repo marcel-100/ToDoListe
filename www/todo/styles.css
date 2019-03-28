@@ -59,6 +59,7 @@ li {
   padding: 0;
   padding: 1em;
   display: -webkit-box;
+  word-wrap:break-word;
 }
 
 .eingabe {
