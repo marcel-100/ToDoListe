@@ -100,6 +100,12 @@ function handleTextInput(e) {
   }
 }
 
+function handleHeaderInput(e){
+  if (e.keyCode === 13) {
+    document.getElementById("content").focus();
+  }
+}
+
 /**
  * 
  * @param {number} id 

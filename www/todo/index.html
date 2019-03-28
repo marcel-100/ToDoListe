@@ -12,7 +12,10 @@
       <h1>To-do-Liste in COBOL</h1>
     </div>
     <div class="form">
-      <input id="content" type="text" text="50" onkeypress="handleTextInput(event);" autofocus>
+      <div class="formsub">
+      <input id="header" type="text" text="50" placeholder="Überschrift" onkeypress="handleHeaderInput(event)">
+      <input id="content" type="text" text="50" placeholder="Notiz" onkeypress="handleTextInput(event);" autofocus></br>
+    </div>
       <input value="Eintragen" type="button" onclick="addToTodolist();"><br />
       <input value="Liste löschen" type="button" onclick='javascript:clearList()'>
     </div>

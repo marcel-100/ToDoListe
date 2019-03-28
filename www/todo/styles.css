@@ -37,13 +37,14 @@ h1 {
 }
 
 .form {
-  display: flex;
-  flex-direction: row;
   justify-content: space-around;
+  display: inline-flex;
+  margin-top: 15px;
 }
 
 input[type=text] {
-  width: 100%;
+  align-content: center;
+  width: -moz-available;
 }
 
 ul {
