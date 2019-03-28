@@ -52,6 +52,8 @@
                    PERFORM DELETE-ITEM
                WHEN ACTION-EDIT-ITEM
                    PERFORM EDIT-ITEM
+               WHEN ACTION-MOVE-ITEM
+                   PERFORM MOVE-ITEM
            END-EVALUATE
 
            GOBACK.
@@ -115,19 +117,28 @@
 
            COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
 
+
+
+           DISPLAY NEW-TODO-ITEM UPON SYSERR
+           DISPLAY PARAMETER-VALUE-2 UPON SYSERR
+
            MOVE TODO-ITEM(ITEM-TO-DELETE)
             TO ITEM-CONTENT IN WS-TDLIST
 
-           IF PARAMETER-VALUE-2 = "up" THEN
-               MOVE TODO-ITEM(ITEM-TO-DELETE + 1)
-                TO TODO-ITEM(ITEM-TO-DELETE)
+           IF PARAMETER-VALUE-2 = "up" AND ITEM-TO-DELETE > 1 THEN
+               MOVE TODO-ITEM(ITEM-TO-DELETE - 1)
+               TO TODO-ITEM(ITEM-TO-DELETE)
                MOVE ITEM-CONTENT IN WS-TDLIST
-                TO TODO-ITEM(ITEM-TO-DELETE + 1)
-           ELSE
+               TO TODO-ITEM(ITEM-TO-DELETE - 1)
+           END-IF
+
+           IF PARAMETER-VALUE-2 = "down" AND
+               ITEM-TO-DELETE < NUMBER-OF-TODOS THEN
+
                MOVE TODO-ITEM(ITEM-TO-DELETE + 1)
-                TO TODO-ITEM(ITEM-TO-DELETE)
+               TO TODO-ITEM(ITEM-TO-DELETE)
                MOVE ITEM-CONTENT IN WS-TDLIST
-                TO TODO-ITEM(ITEM-TO-DELETE + 1)
+               TO TODO-ITEM(ITEM-TO-DELETE + 1)
            END-IF
 
            PERFORM WRITE-FILE

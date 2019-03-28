@@ -5,6 +5,9 @@ body {
   background: linear-gradient(135deg, #3349a0 0%,#dbc4af 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3349a0', endColorstr='#dbc4af',GradientType=1 );
 
+  background-image: url('background.jpeg');
+  background-position: center center;
+
   box-sizing: padding-box;
 
   font-family: 'Slabo 27px', Verdana, Geneva, Tahoma, sans-serif;
@@ -15,7 +18,6 @@ body {
 }
 
 h1 {
-  font-weight: normal;
   margin: 0;
   margin: 0;
   text-align: center;
@@ -25,6 +27,7 @@ h2 {
   font-weight: normal;
   margin: 0;
   margin: 0;
+  color: rgb(0, 92, 129);
 }
 
 .container {
@@ -78,7 +81,7 @@ li:nth-child(odd) {
 }
 
 li input {
-  color: red;
+  color: rgb(0, 92, 129);
   font-size: 12pt;
   height: 3em;
   margin-right: 1em;

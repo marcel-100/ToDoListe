@@ -14,7 +14,7 @@ function initXmlRequests() {
   else if (window.ActiveXObject) {
     self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
   }
-  self.xmlHttpReq.open('POST', 'http://' + window.location.host + '/cgi-bin/todohandler', false);
+  self.xmlHttpReq.open('POST', 'http://' + location.host + '/cgi-bin/todohandler', false);
   self.xmlHttpReq.setRequestHeader('Content-Type',
     'application/x-www-form-urlencoded');
   self.xmlHttpReq.onreadystatechange = function () {
@@ -46,9 +46,8 @@ function addToTodolist() {
     qstr = 'content=' + escape(header) + escape(note);  // NOTE: no '?' before querystring
     qstr = qstr + "&action=add\n"
 
-    console.log(qstr);
-
     self.xmlHttpReq.send(qstr);
+    document.getElementById('header').value = '';
     document.getElementById('content').value = '';
     showTodoList();
   }
@@ -67,8 +66,6 @@ function clearList() {
 }
 
 function updatepage(str) {
-
-  console.log(str);
 
   let items;
 
@@ -96,7 +93,11 @@ function updatepage(str) {
 
       domNode.innerHTML += '<li>' +
         '<input type="button" value="✖" onclick="deleteItem(' + i + ');">' +
-        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">' + '<div class="eingabe">' +
+        
+        '<input type="button" value="&#x2B06;" onclick="handleMove(' + i + ", 'up');\"><br/>" +
+        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">' +
+        '<input type="button" value="&#x2B07;" onclick="handleMove(' + i + ", 'down');\">" +
+        '<div class="eingabe">' +
         '<h2>' + replaceFormatting(escapeHtml(header)) + '</h1>' +
         replaceFormatting(escapeHtml(note)) + '</div>' + '</li>';
     });
@@ -140,8 +141,6 @@ function editItem(id, header, note) {
     
     if (note !== null && note !== "") {
 
-      console.log(HEADER_LENGTH, header.length)
-
       header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
 
       initXmlRequests();
@@ -168,9 +167,6 @@ function escapeHtml(unsafe) {
 }
 
 function replaceFormatting(toDoItem) {
-  
-
-  console.log(toDoItem)
 
   var bold = /\*\*([^\*\*]*\*\*[^\*\*]*)/gm;
   var italic = /__([^__]*__[^__]*)/gm;
@@ -189,12 +185,14 @@ function replaceFormatting(toDoItem) {
   toDoItem = toDoItem.replace(monospace, "<span class='mono'>$1");
   toDoItem = toDoItem.replace(/```/gm, "</span>");
 
-  
-  console.log(toDoItem)
-
   return toDoItem;
 }
 
+function handleMove(id, direction) {
+  initXmlRequests();
+  self.xmlHttpReq.send('action=move&id=' + id + '&direction=' + direction + '\n');
+  showTodoList();
+}
 
 // Warte mit der Ausführung von JavaScript, bis der Browser das Parsing des DOMs
 // abgeschlossen hat.

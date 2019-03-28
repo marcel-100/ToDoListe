@@ -4,3 +4,4 @@
           88 ACTION-DELETE VALUE "delete".
           88 ACTION-DELETE-ITEM VALUE "delete-item".
           88 ACTION-EDIT-ITEM VALUE "edit".
+          88 ACTION-MOVE-ITEM VALUE "move".

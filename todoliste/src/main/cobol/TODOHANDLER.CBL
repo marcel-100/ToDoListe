@@ -43,6 +43,8 @@
                    PERFORM DELETE-ITEM
                WHEN ACTION-EDIT-ITEM
                    PERFORM EDIT-ITEM
+               WHEN ACTION-MOVE-ITEM
+                   PERFORM MOVE-ITEM
                WHEN OTHER
                    DISPLAY "Action unbekannt: " TODO-ACTION
            END-EVALUATE
@@ -69,7 +71,6 @@
 
            MOVE CHUNK-OF-POST TO REQUEST-STRING
 
-           EXIT.
 
            EXIT.
 
@@ -80,7 +81,7 @@
            DISPLAY "CONTENT-TYPE: TEXT/HTML"
            NEWLINE
 
-           EXIT.
+
 
            EXIT.
 
@@ -91,7 +92,6 @@
            MOVE CHUNK-OF-POST TO REQUEST-STRING
            CALL "CGIUTIL" USING REQUEST-PARAMETERS
 
-           EXIT.
 
            EXIT.
 
@@ -155,6 +155,22 @@
                TODO-ACTION PARAMETER-VALUE-1 PARAMETER-VALUE-2
 
        EXIT.
+      * -------------------------------------------------------------- *
+
+       MOVE-ITEM SECTION.
+
+           MOVE "id" TO PARAMETER-NAME
+           PERFORM READ-PARAMETER-VALUE
+           MOVE PARAMETER-VALUE TO PARAMETER-VALUE-1
+
+           MOVE "direction" TO PARAMETER-NAME
+           PERFORM READ-PARAMETER-VALUE
+           MOVE PARAMETER-VALUE TO PARAMETER-VALUE-2
+
+           CALL "TODOLISTE" USING
+               TODO-ACTION PARAMETER-VALUE-1 PARAMETER-VALUE-2
+       EXIT.
+
       * -------------------------------------------------------------- *
 
        END PROGRAM TODOHANDLER.
