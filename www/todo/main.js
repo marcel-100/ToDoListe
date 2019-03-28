@@ -82,8 +82,8 @@ function updatepage(str) {
 
       domNode.innerHTML += '<li>' +
         '<input type="button" value="✖" onclick="deleteItem(' + i + ');">' +
-        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + window.escape(element) + '\');">' +
-        escapeHtml(element) + '</li>';
+        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + window.escape(element) + '\');">' + '<div class="eingabe">' +
+        escapeHtml(element) + '</div>' + '</li>';
     });
   }
 }

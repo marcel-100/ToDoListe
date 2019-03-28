@@ -58,6 +58,11 @@ li {
   list-style: none;
   padding: 0;
   padding: 1em;
+  display: -webkit-box;
+}
+
+.eingabe {
+  width: 477px;
 }
 
 li:nth-child(odd) {
