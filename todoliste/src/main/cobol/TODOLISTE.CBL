@@ -249,32 +249,4 @@
 
       * -------------------------------------------------------------- *
 
-       EDIT-ITEM SECTION.
-
-           PERFORM READ-TODOLIST-FROM-FILE-TO-RAM
-
-           COMPUTE ITEM-TO-DELETE = FUNCTION NUMVAL(NEW-TODO-ITEM)
-
-           MOVE PARAMETER-VALUE-2 TO TODO-ITEM(ITEM-TO-DELETE)
-
-           OPEN OUTPUT TDLIST
-
-              PERFORM VARYING COUNTER FROM 1 BY 1
-              UNTIL COUNTER > NUMBER-OF-TODOS
-
-              MOVE COUNTER
-              TO ITEM-ID IN WS-TDLIST
-              MOVE TODO-ITEM (COUNTER)
-              TO ITEM-CONTENT IN WS-TDLIST
-
-              WRITE TDLIST-FILE FROM WS-TDLIST
-
-              END-PERFORM
-
-           CLOSE TDLIST
-
-       EXIT.
-
-      * -------------------------------------------------------------- *
-
        END PROGRAM TODOLISTE.
