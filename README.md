@@ -52,8 +52,8 @@ Zum Kompilieren liegt dem Projekt ein Makefile bei:
 
 | Befehl            | Beschreibung                                                     |
 | ----------------- | ---------------------------------------------------------------- |
-| `make run-server` | Kompiliert das Projekt und startet einen Webserver auf Port 8080 |
 | `make`            | Kompiliert das Projekt                                           |
+| `make run-server` | Kompiliert das Projekt und startet einen Webserver auf Port 8080 |
 
 Die beiliegendende Vagrant-Konfiguration lässt den Webserver auch vom Hostsystem
 aus unter [http://localhost:8080/](http://localhost:8080/) erreichen.
