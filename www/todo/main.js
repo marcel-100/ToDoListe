@@ -131,7 +131,7 @@ function updatepage(str) {
         '<div class="cell medium-8 large-10">' +
         '<h2>' + replaceFormatting(escapeHtml(header)) + '</h2>' +
         '<text>' + replaceFormatting(escapeHtml(note)) + '</text></br>' +
-        '<text>' + replaceFormatting(escapeHtml(date)) + '</text>' +
+        '<text><i>' + replaceFormatting(escapeHtml(date)) + '</i></text>' +
         '</div>' +
         '<div class="cell medium-2 large-1">' +
         '<a class="hollow success button small"  data-open="exampleModal1" style="margin: 0 0 0rem 0"  onclick="editItem2(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">🖋</a> <!--  foundation ln 2456 margin 0 -->' +
@@ -170,13 +170,13 @@ function handleHeaderInput(e) {
  * @param {string} oldValue 
  */
 
-function editItem2(id, header, note, dt) {
+function editItem2(id, header, note,) {
   var item = document.getElementById('newContent');
+  console.log("scrapped note:"+note);
   item.value = unescape(note.trim());
   var item2 = document.getElementById('newHeader');
   item2.value = unescape(header).trim();
   editId = id;
-  editDate = dt;
 }
 
 
@@ -197,9 +197,9 @@ function editItemSend() {
 
     if (note !== null && note !== "") {
 
-      header = header + new Array(HEADER_LENGTH - header.length+ DATE_LENGTH + 1).join(" ");
+      header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
       initXmlRequests();
-      self.xmlHttpReq.send('action=edit&id=' + editId + '&content=' + escape(header) + editDate + escape(note) + '\n');
+      self.xmlHttpReq.send('action=edit&id=' + editId + '&content=' + escape(header) + getDT() + escape(note) + '\n');
       showTodoList();
     }
   }
