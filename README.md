@@ -11,20 +11,14 @@ Die Einträge werden dabei serverseitig sequenziell in eine Textdatei geschriebe
 Features
 --------
 
-- [x] Eintrag erstellen
-- [x] Lange Einträge darstellen mit CSS
-- [x] HTML-Injection unterbinden (Client-seitig)
-- [x] Eintrag erstellen mit Enter
-- [x] Alle Einträge löschen
-- [x] Einzelne Einträge löschen
-- [x] Einzelne Einträge bearbeiten
-- [ ] Einzelne Einträge als fertig markieren
-- [ ] Einträge durchnummerieren
-- [ ] Einträge verschieben (auf und ab)
-- [ ] Fälligkeitsdatum für Eintrag
-- [x] Texteingabefeld automatisch leeren
-- [x] Übliche Sonderzeichen zulassen
-- [x] Höhere Unicode-Zeichen zulassen (z. B. Emojis)
+- Einzelne Einträge erstellen, bearbeiten und löschen
+- Alle Einträge löschen
+- Korrekte Darstellung langer Einträge
+- Abschicken von Eingaben mit Enter
+- Automatisches leeren der Eingabefelder
+- Unterstützung höherer Unicode-Zeichen inklusive Emojis
+- Unterbindung von HTML-Injection
+- Verschieben einzelner Einträge
 
 Setup
 -----
