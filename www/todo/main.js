@@ -1,5 +1,5 @@
 const HEADER_LENGTH = 128;
-const NOTE_LENGTH = 128;
+const DATE_LENGTH = 18;
 
 /**
  * 
@@ -28,9 +28,18 @@ function initXmlRequests() {
 /**
  * 
  */
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+/**
+ * 
+ */
 function getDT(){
   var today = new Date();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var time = addZero(today.getHours()) + ":" + addZero(today.getMinutes()) + ":" + addZero(today.getSeconds());
   var date = today.getDate() + '.' + (today.getMonth()+1) + '.' + today.getFullYear();
   var dt = time + '_' + date;
   return dt;
@@ -48,9 +57,7 @@ function addToTodolist() {
   var header = document.getElementById('header').value;
   header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
 
-
   var note = document.getElementById('content').value;
-  note = note + new Array(NOTE_LENGTH - note.length + 1).join(" ");
 
   var dt = getDT();
 
@@ -59,7 +66,7 @@ function addToTodolist() {
     alert("Bitte einen Text eingeben.")
   } else {
 
-    qstr = 'content=' + escape(header) + escape(note) + dt;  // NOTE: no '?' before querystring
+    qstr = 'content=' + escape(header) + dt + escape(note);  // NOTE: no '?' before querystring
     qstr = qstr + "&action=add\n"
 
     self.xmlHttpReq.send(qstr);
@@ -146,10 +153,11 @@ function handleHeaderInput(e){
  * @param {string} oldValue 
  */
 function editItem(id, header, note) {
+  var noteTrim = note.substr(22,);
 
   header = prompt("Überschrift", unescape(header).trim());
     if (header !== null) {
-      note = prompt("Notiz", unescape(note).trim())
+      note = prompt("Notiz", unescape(noteTrim).trim())
     
 
     if (header.length > HEADER_LENGTH) {
@@ -162,7 +170,7 @@ function editItem(id, header, note) {
       header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
 
       initXmlRequests();
-      self.xmlHttpReq.send('action=edit&id=' + id + '&content=' + escape(header) + escape(note) + '\n');
+      self.xmlHttpReq.send('action=edit&id=' + id + '&content=' + escape(header) + getDT() + escape(noteTrim) + '\n');
       showTodoList();
     }
   }
