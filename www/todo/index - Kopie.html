@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="styles.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet"> 
+  <script type="text/javascript" src="main.js"></script>
+  <title>To-do-Liste in COBOL</title>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>To-do-Liste in COBOL</h1>
+    </div>
+    <div class="form">
+      <div class="formsub">
+      <input id="header" type="text" text="50" placeholder="Überschrift" onkeypress="handleHeaderInput(event)" autofocus>
+      <input id="content" type="text" text="50" placeholder="Notiz" onkeypress="handleTextInput(event);"></br>
+    </div>
+      <input value="Eintragen" type="button" onclick="addToTodolist();"><br />
+      <input value="Liste löschen" type="button" onclick='javascript:clearList()'>
+    </div>
+    <div>
+      <ul id="result"></ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+    <script type="text/javascript" src="main.js"></script>
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
+    <title>To-do-Liste in COBOL</title>
+</head>
+
+<body>
+    <p><button class="button" data-open="exampleModal1">Click me for a modal</button></p>
+    <div class="reveal" id="exampleModal1" data-reveal>
+        <h1>Awesome. I Have It.</h1>
+        <p class="lead">Your couch. It is mine.</p>
+        <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <a class="hollow success button small" style="margin: 0 0 0rem 0" data-toggle="example-dropdown2">🖋</a>
+    <!--  foundation ln 2456 margin 0 -->
+    <div class="dropdown-pane large" data-position="right" data-hover="true" data-alignment="top" id="example-dropdown2"
+        data-dropdown>
+        <div class="grid-x grid-padding-x">
+            <div class="cell">
+                <input id="header" type="text" text="50" placeholder="Überschrift" onkeypress="handleHeaderInput(event)"
+                    autofocus>
+            </div>
+            <div class="cell">
+                <textarea id="content" type="text" text="50" style="resize:vertical" placeholder="Notiz"
+                    onkeypress="handleTextInput(event);"></textarea></br>
+            </div>
+            <div class="cell medium-6 large-6">
+                <a class="success button small expanded">Überschreiben</a>
+                <!--onclick="editItem(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');"-->
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
+    <script src="js/vendor/foundation.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>
