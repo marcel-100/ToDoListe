@@ -14,7 +14,7 @@ Features
 - Einzelne Einträge erstellen, bearbeiten und löschen
 - Alle Einträge löschen
 - Korrekte Darstellung langer Einträge
-- Abschicken von Eingaben mit Enter
+- Abschicken von Eingaben mit <Enter>
 - Automatisches leeren der Eingabefelder
 - Unterstützung höherer Unicode-Zeichen inklusive Emojis
 - Unterbindung von HTML-Injection
