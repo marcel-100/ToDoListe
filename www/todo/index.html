@@ -15,6 +15,7 @@
       <div class="formsub">
       <input id="header" type="text" text="50" placeholder="Überschrift" onkeypress="handleHeaderInput(event)" autofocus>
       <input id="content" type="text" text="50" placeholder="Notiz" onkeypress="handleTextInput(event);"></br>
+      <input id="hashInput" type="text" placeholder="#Hashtag1 #Hashtag2" onkeyup="filterHashTags()">
     </div>
       <input value="Eintragen" type="button" onclick="addToTodolist();"><br />
       <input value="Liste löschen" type="button" onclick='javascript:clearList()'>

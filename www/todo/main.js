@@ -77,7 +77,10 @@ function addToTodolist() {
 
 }
 
+
+
 function showTodoList() {
+
   initXmlRequests();
   self.xmlHttpReq.send("action=show\n");
   document.getElementById("header").focus();
@@ -89,6 +92,8 @@ function clearList() {
   self.xmlHttpReq.send("action=delete\n");
   showTodoList();
 }
+
+let lastResponse = {};
 
 function updatepage(str) {
 
@@ -104,6 +109,8 @@ function updatepage(str) {
     let i = 0;
 
     domNode.innerHTML = "";
+
+    lastResponse = items;
 
     items.forEach(function (element) {
 
@@ -124,7 +131,9 @@ function updatepage(str) {
         '<input type="button" value="&#x2B07;" onclick="handleMove(' + i + ", 'down');\">" +
         '<div class="eingabe">' +
         '<h2>' + replaceFormatting(escapeHtml(header)) + '</h1>' +
-        replaceFormatting(escapeHtml(note)) + '</div>' + '</li>';
+        replaceFormatting(escapeHtml(note)).slice(0, 18) + "<br/>" +
+        replaceFormatting(escapeHtml(note)).slice(18 ) +
+        '</div>' + '</li>';
     });
   }
 }
@@ -170,10 +179,61 @@ function editItem(id, header, note) {
       header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
 
       initXmlRequests();
-      self.xmlHttpReq.send('action=edit&id=' + id + '&content=' + escape(header) + getDT() + escape(noteTrim) + '\n');
+      self.xmlHttpReq.send('action=edit&id=' + id + '&content=' + escape(header) + getDT() + escape(note) + '\n');
       showTodoList();
     }
   }
+}
+
+function filterHashTags() {
+  let tag = document.getElementById("hashInput").value;
+
+  let tags = tag.match(/[#](\w+)/gm);
+
+  if (tag !== "" && tags !== null) {
+
+    console.log(tags)
+
+    let resultNode = document.getElementById("result");
+    let nodes = resultNode.childNodes
+    let i = 0;
+
+    lastResponse.forEach(function (element) {
+
+      element = unescape(element);
+
+      const contains = element.match(/[#](\w+)/gm)
+
+      nodes[i].style.display = "none";
+
+      if (contains != null) {
+
+        tags.forEach(function (tagsElement) {
+          let occurances = contains.find(function (occursancesElement) {
+            return tagsElement == occursancesElement;
+          });
+  
+  
+          if (occurances) {
+            nodes[i].style.display = "";
+          }
+        });
+
+      }
+
+      i++;
+
+    });
+  } else {
+    let resultNode = document.getElementById("result");
+    let nodes = resultNode.childNodes
+    
+    nodes.forEach(function (node) {
+      node.style.display = "";
+    });
+  }
+
+
 }
 
 /**
@@ -210,6 +270,8 @@ function replaceFormatting(toDoItem) {
 
   toDoItem = toDoItem.replace(monospace, "<span class='mono'>$1");
   toDoItem = toDoItem.replace(/```/gm, "</span>");
+
+  toDoItem = toDoItem.replace(/[#](\w+)/gm, "<b style='color:red;'>#$1</b>")
 
   return toDoItem;
 }
