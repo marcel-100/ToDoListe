@@ -1,9 +1,9 @@
-Minimale ToDo-Liste in GnuCOBOL
+ToDo-Liste in GnuCOBOL
 ============================
 
 [![Build Status](https://api.travis-ci.org/marcel-100/ToDoListe.svg?branch=master)](https://travis-ci.org/marcel-100/ToDoListe)
 
-Dieses Projekt bietet eine minimale To-do-Listenfunktionalität im Webbrowser mit
+Dieses Projekt bietet To-do-Listenfunktionalität im Webbrowser mit
 [GnuCOBOL](https://sourceforge.net/projects/open-cobol/) auf der Serverseite.
 
 Die Einträge werden dabei serverseitig sequenziell in eine Textdatei geschrieben.
