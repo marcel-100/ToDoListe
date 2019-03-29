@@ -1,4 +1,5 @@
 const HEADER_LENGTH = 128;
+const NOTE_LENGTH = 128;
 
 /**
  * 
@@ -27,6 +28,18 @@ function initXmlRequests() {
 /**
  * 
  */
+function getDT(){
+  var today = new Date();
+  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var date = today.getDate() + '.' + (today.getMonth()+1) + '.' + today.getFullYear();
+  var dt = time + '_' + date;
+  return dt;
+}
+
+/**
+  * 
+  */
+
 function addToTodolist() {
 
   initXmlRequests();
@@ -37,13 +50,16 @@ function addToTodolist() {
 
 
   var note = document.getElementById('content').value;
+  note = note + new Array(NOTE_LENGTH - note.length + 1).join(" ");
+
+  var dt = getDT();
 
 
   if (note === "") {
     alert("Bitte einen Text eingeben.")
   } else {
 
-    qstr = 'content=' + escape(header) + escape(note);  // NOTE: no '?' before querystring
+    qstr = 'content=' + escape(header) + escape(note) + dt;  // NOTE: no '?' before querystring
     qstr = qstr + "&action=add\n"
 
     self.xmlHttpReq.send(qstr);
@@ -57,6 +73,8 @@ function addToTodolist() {
 function showTodoList() {
   initXmlRequests();
   self.xmlHttpReq.send("action=show\n");
+  document.getElementById("header").focus();
+
 }
 
 function clearList() {
