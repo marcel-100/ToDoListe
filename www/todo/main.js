@@ -1,8 +1,7 @@
 const HEADER_LENGTH = 128;
 const DATE_LENGTH = 18;
 var editId;
-var editHead;
-var editContent;
+var editDate;
 
 /**
  * 
@@ -115,9 +114,13 @@ function updatepage(str) {
       } catch (error) { console.error(error); }
 
       i++;
-
+      console.log('Element: '+ element);
+      console.log('ElementLaenge'+ element.length);
       var header = element.substr(0, HEADER_LENGTH);
-      var note = element.substr(HEADER_LENGTH, element.length);
+      var date = element.substr(HEADER_LENGTH, DATE_LENGTH);
+      var note = element.substr(DATE_LENGTH+HEADER_LENGTH, element.length);
+      console.log('Notiz'+ note);
+      console.log('Datum'+ date);
 
       domNode.innerHTML += '<div class="grid-x grid-margin-x"> <!-- Muss ins JavaScript rein!!! -->' +
         '<div class="cell medium-2 large-1"> ' +
@@ -127,7 +130,8 @@ function updatepage(str) {
         '</div>' +
         '<div class="cell medium-8 large-10">' +
         '<h2>' + replaceFormatting(escapeHtml(header)) + '</h2>' +
-        '<text>' + replaceFormatting(escapeHtml(note)) + '</text>' +
+        '<text>' + replaceFormatting(escapeHtml(note)) + '</text></br>' +
+        '<text>' + replaceFormatting(escapeHtml(date)) + '</text>' +
         '</div>' +
         '<div class="cell medium-2 large-1">' +
         '<a class="hollow success button small"  data-open="exampleModal1" style="margin: 0 0 0rem 0"  onclick="editItem2(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">🖋</a> <!--  foundation ln 2456 margin 0 -->' +
@@ -166,12 +170,13 @@ function handleHeaderInput(e) {
  * @param {string} oldValue 
  */
 
-function editItem2(id, header, note) {
+function editItem2(id, header, note, dt) {
   var item = document.getElementById('newContent');
   item.value = unescape(note.trim());
   var item2 = document.getElementById('newHeader');
   item2.value = unescape(header).trim();
   editId = id;
+  editDate = dt;
 }
 
 
@@ -192,9 +197,9 @@ function editItemSend() {
 
     if (note !== null && note !== "") {
 
-      header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
+      header = header + new Array(HEADER_LENGTH - header.length+ DATE_LENGTH + 1).join(" ");
       initXmlRequests();
-      self.xmlHttpReq.send('action=edit&id=' + editId + '&content=' + escape(header) + escape(note) + '\n');
+      self.xmlHttpReq.send('action=edit&id=' + editId + '&content=' + escape(header) + editDate + escape(note) + '\n');
       showTodoList();
     }
   }
