@@ -1,5 +1,8 @@
 const HEADER_LENGTH = 128;
 const DATE_LENGTH = 18;
+var editId;
+var editHead;
+var editContent;
 
 /**
  * 
@@ -116,15 +119,25 @@ function updatepage(str) {
       var header = element.substr(0, HEADER_LENGTH);
       var note = element.substr(HEADER_LENGTH, element.length);
 
-      domNode.innerHTML += '<li>' +
-        '<input type="button" value="✖" onclick="deleteItem(' + i + ');">' +
-        
-        '<input type="button" value="&#x2B06;" onclick="handleMove(' + i + ", 'up');\"><br/>" +
-        '<input type="button" value="✏" onclick="editItem(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">' +
-        '<input type="button" value="&#x2B07;" onclick="handleMove(' + i + ", 'down');\">" +
-        '<div class="eingabe">' +
-        '<h2>' + replaceFormatting(escapeHtml(header)) + '</h1>' +
-        replaceFormatting(escapeHtml(note)) + '</div>' + '</li>';
+      domNode.innerHTML += '<div class="grid-x grid-margin-x"> <!-- Muss ins JavaScript rein!!! -->' +
+        '<div class="cell medium-2 large-1"> ' +
+        '<!--<div class="grid-y" style="height: 10%;"></div> -->' +
+        '<a class="button small" style="margin: 0 0 0rem 0"  onclick="handleMove(' + i + ", 'up');\">🡹</a> <!--  foundation ln 2456 margin 0 -->" +
+        '<a class="button small" style="margin: 0 0 0rem 0" onclick="handleMove(' + i + ", 'down');\">🡻</a>" +
+        '</div>' +
+        '<div class="cell medium-8 large-10">' +
+        '<h2>' + replaceFormatting(escapeHtml(header)) + '</h2>' +
+        '<text>' + replaceFormatting(escapeHtml(note)) + '</text>' +
+        '</div>' +
+        '<div class="cell medium-2 large-1">' +
+        '<a class="hollow success button small"  data-open="exampleModal1" style="margin: 0 0 0rem 0"  onclick="editItem2(' + i + ', \'' + escape(header) + '\', \'' + escape(note) + '\');">🖋</a> <!--  foundation ln 2456 margin 0 -->' +
+
+
+        '<a class="hollow alert button small" style="margin: 0 0 0rem 0" onclick="deleteItem(' + i + ');">⛌</a>' +
+
+        '</div>' +
+        '</div> <!-- Ende in JavaScript rein!!! -->'
+        ;
     });
   }
 }
@@ -141,7 +154,7 @@ function handleTextInput(e) {
   }
 }
 
-function handleHeaderInput(e){
+function handleHeaderInput(e) {
   if (e.keyCode === 13) {
     document.getElementById("content").focus();
   }
@@ -152,6 +165,50 @@ function handleHeaderInput(e){
  * @param {number} id 
  * @param {string} oldValue 
  */
+
+function editItem2(id, header, note) {
+  var item = document.getElementById('newContent');
+  item.value = unescape(note.trim());
+  var item2 = document.getElementById('newHeader');
+  item2.value = unescape(header).trim();
+  editId = id;
+}
+
+
+function editItemSend() {
+
+  var item2 = document.getElementById('newHeader');
+  var item1 = document.getElementById('newContent');
+
+  header = item2.value;
+  if (header !== null) {
+    note = item1.value;
+
+
+    if (header.length > HEADER_LENGTH) {
+      header = header.substr(0, HEADER_LENGTH);
+    }
+
+
+    if (note !== null && note !== "") {
+
+      header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
+      initXmlRequests();
+      self.xmlHttpReq.send('action=edit&id=' + editId + '&content=' + escape(header) + escape(note) + '\n');
+      showTodoList();
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 function editItem(id, header, note) {
   var noteTrim = note.substr(22,);
 
@@ -164,7 +221,7 @@ function editItem(id, header, note) {
       header = header.substr(0, HEADER_LENGTH);
     }
 
-    
+
     if (note !== null && note !== "") {
 
       header = header + new Array(HEADER_LENGTH - header.length + 1).join(" ");
